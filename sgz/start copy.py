@@ -1,4 +1,5 @@
 # -*- encoding=utf-8 -*-
+from cv2 import destroyAllWindows
 from numpy import datetime_data, true_divide
 import pyautogui
 import os
@@ -9,6 +10,17 @@ import datetime
 import random
 import msvcrt
 # import cv2
+def get_distance():
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\mucai.png",200,0.8)
+    print("mucai :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zhongxiny.png",200,0.8)
+    print("zhongxiny :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
 
 def open_application():
     os.startfile(r'D:\soft\xyaz\Microvirt\MEmu\MEmuConsole.exe')
@@ -26,6 +38,7 @@ def start_sgzapp():
     # point_infos = (pointinfo_sgz.left + 400, pointinfo_sgz.top, point_infos.width, point_infos.height)
     dest_node = gen_destnode(pointinfo_sgz.left + 399, pointinfo_sgz.top, point_infos.width, point_infos.height)
     start_mnq(dest_node[0],dest_node[1])
+    pyautogui.moveTo(1,1,duration=0.3)
     
     # time.sleep(20)
     # 查找sgz_app并启动
@@ -43,93 +56,463 @@ def login(username,passwd,zoneid,name):
     pass
 
 def new_role():
-    # time.sleep(20)
+    time.sleep(20)
     num = 0
     while True:
-        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",20,0.8)
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
         print("new_role_next :",point_infos)
         if point_infos != None:
             find_click(point_infos)
             time.sleep(2)
             num = num + 1
             print("num is: ",num)
-            if num == 7:
+            if num >= 7:
                 break
 
+    time.sleep(20)
     answer_quest()
 
-    for i in range(2):
-        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",20,0.8)
-        print("new_role_next :",point_infos)
+    while True:
+        for i in range(2):
+            point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
+            print("new_role_next :",point_infos)
+            if point_infos != None:
+                find_click(point_infos)
+                time.sleep(2)
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\quedingxuanze.png",200,0.8)
+        print("quedingxuanze :",point_infos)
         if point_infos != None:
             find_click(point_infos)
-            time.sleep(2)
-    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\quedingxuanze.png",20,0.8)
-    print("quedingxuanze :",point_infos)
-    if point_infos != None:
-        find_click(point_infos)
-        time.sleep(2)    
-    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\jinruluanshi.png",20,0.8)
-    print("jinruluanshi :",point_infos)
-    if point_infos != None:
-        find_click(point_infos)
-        time.sleep(2)
-    for i in range(3):
-        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",20,0.8)
+            time.sleep(5)
+            break
+    while True:
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\jinruluanshi.png",200,0.8)
+        print("jinruluanshi :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\qingchongxinshuru.png",200,0.8)
+            print("qingchongxinshuru :",point_infos)
+            if point_infos != None:
+                point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\suiji.png",200,0.8)
+                if point_infos != None:
+                    print("suiji :",point_infos)
+                    find_click(point_infos)
+                    continue
+            else:
+                break
+    # for i in range(3):
+    for i in range(5):
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
         print("new_role_next :",point_infos)
         if point_infos != None:
             find_click(point_infos)
             time.sleep(5)
-    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\jiangdong.png",20,0.8)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\jiangdong.png",200,0.8)
     print("jiangdong :",point_infos)
     if point_infos != None:
         find_click(point_infos)
         time.sleep(2)
-    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\ruzhu.png",20,0.8)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\ruzhu.png",200,0.8)
     print("ruzhu :",point_infos)
     if point_infos != None:
         find_click(point_infos)
+        time.sleep(60)
+        while True:
+            point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\jinruchangjingzhong.png",200,0.8)
+            print("jinruchangjingzhong :",point_infos)
+            if point_infos != None:
+                # 发送告警通知，人工介入
+                # while True:
+                print("当前服务器已满，请输入您的选择：1：跳过此步；2：继续查找")
+                choice_op = getinput(20)
+                if choice_op == "1":
+                    break
+            else:
+                break
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\xiayibu.png",200,0.8)
+    print("xiayibu :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(5)
+    for i in range(6):
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
+        print("new_role_next :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(5)
+    zhaomu_shouci()
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
+    print("new_role_next :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)    
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\xuanzezhucheng.png",200,0.8)
+    print("xuanzezhucheng :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
         time.sleep(2)
-        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\jinruchangjingzhong.png",20,0.8)
-        print("jinruchangjingzhong :",point_infos)
-        if point_infos == None:
-            # 发送告警通知，人工介入
-            print("当前服务器已满，请更换选择")
+    else:
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zhucheng_logo.png",200,0.8)
+        print("zhucheng_logo :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(2)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\rucheng.png",200,0.8)
+    print("rucheng :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)    
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\dianjibianzhibudui.png",200,0.8)
+    print("dianjibianzhibudui :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+
+    for i in range(2):
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\peizhiwujiang.png",200,0.8)
+        print("peizhiwujiang :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(2)         
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\shangzhen.png",200,0.8)
+        print("shangzhen :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(2)       
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\kuaisufenbing.png",200,0.8)
+    print("kuaisufenbing :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\querenfenbing.png",200,0.8)
+    print("querenfenbing :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\fanhui.png",200,0.8)
+    print("fanhui :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\fanhui_2.png",200,0.8)
+    print("fanhui_2 :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
+    print("new_role_next :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+    
+    # 新手引导 占领空地
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\mucai.png",200,0.8)
+    print("mucai :",point_infos)
+    if point_infos != None:
+        dest_node = gen_destnode(point_infos.left, point_infos.top + 266, point_infos.width, point_infos.height)
+        print("空地： ", dest_node)
+        start_mnq(dest_node[0],dest_node[1])
+        pyautogui.moveTo(1,1,duration=0.3)
+        time.sleep(2)   
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\gongzhan.png",200,0.8)
+    print("gongzhan :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\daiming.png",200,0.8)
+    print("daiming :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\gongzhan_2.png",200,0.8)
+    print("gongzhan :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(100)
+    # # 攻占后如果等待60秒，可以不点击跳过按钮
+    # point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\tiaoguo.png",200,0.8)
+    # print("tiaoguo  :",point_infos)
+    # if point_infos != None:
+    #     find_click(point_infos)
+    #     time.sleep(30)   
+
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\qushou.png",200,0.8)
+    print("qushou  :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+        dest_node = gen_destnode(point_infos.left, point_infos.top -70, point_infos.width, point_infos.height)
+        start_mnq(dest_node[0],dest_node[1])
+        pyautogui.moveTo(1,1,duration=0.3)
+        time.sleep(3)
+        # # 查看文字取首与资源图标top的间隔距离
+        # point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\ziyuan.png",200,0.8)
+        # print("ziyuan  :",point_infos)
+
+    for i in range(2):
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
+        print("new_role_next  :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(2)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\huicheng.png",200,0.8)
+    print("huicheng  :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(15)
+
+    for i in range(5):
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
+        print("new_role_next  :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(2)        
+
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\xuanzezhucheng.png",200,0.8)
+    print("xuanzezhucheng :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+    else:
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zhucheng_logo.png",200,0.8)
+        print("zhucheng_logo :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(2)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\rucheng.png",200,0.8)
+    print("rucheng :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)  
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\bingzhongqibing.png",200,0.8)
+    print("bingzhongqibing :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)  
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\bingzhongxuanze.png",200,0.8)
+    print("bingzhongxuanze :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)      
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\qiangbing.png",200,0.8)
+    print("qiangbing :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)   
+
+    for i in range(2):
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\fanhui_2.png",200,0.8)
+        print("fanhui_2 :",point_infos)
+        if point_infos != None:
+            time.sleep(2)
+            find_click(point_infos)
+
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
+    print("new_role_next  :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)    
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\xuanzemubiaolingdi.png",200,0.8)
+    print("xuanzemubiaolingdi  :",point_infos)
+    if point_infos != None:
+        dest_node = gen_destnode(point_infos.left + 222, point_infos.top, point_infos.width, point_infos.height)
+        start_mnq(dest_node[0],dest_node[1])
+        pyautogui.moveTo(1,1,duration=0.3)
+        time.sleep(2)
+    # # 根据义军找到对应left,计算left距离
+    # point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\yijun.png",200,0.8)
+    # print("yijun  :",point_infos)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\xingjun.png",200,0.8)
+    print("xingjun  :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)  
+
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\daiming.png",200,0.8)
+    print("daiming :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\xingjun_2.png",200,0.8)
+    print("xingjun_2 yuan :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(100)
+
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
+    print("new_role_next  :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)    
+
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\huicheng.png",200,0.8)
+    print("huicheng  :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(15)    
+
+    for i in range(4):
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
+        print("new_role_next  :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(2)    
+
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zhaocheng_dianjifanhui.png",200,0.8)
+    print("点击其他区域返回 :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+
+    for i in range(3):
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
+        print("new_role_next  :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(2)    
+
+
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\xuanzezhucheng.png",200,0.8)
+    print("xuanzezhucheng :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+    else:
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zhucheng_logo.png",200,0.8)
+        print("zhucheng_logo :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(2)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\rucheng.png",200,0.8)
+    print("rucheng :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)  
+
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\bingzhongqiangbing.png",200,0.8)
+    print("bingzhongqiangbing :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)  
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\xiazhen.png",200,0.8)
+    print("xiazhen :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)  
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\queren.png",200,0.8)
+    print("queren :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)  
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\peizhiwujiang_jiahao.png",200,0.8)
+    print("peizhiwujiang_jiahao :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)  
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\shangzhen.png",200,0.8)
+    print("shangzhen :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)  
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\kuaisufenbing.png",200,0.8)
+    print("kuaisufenbing :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)  
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\querenfenbing.png",200,0.8)
+    print("querenfenbing :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)  
+    for i in range(2):
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\fanhui_2.png",200,0.8)
+        print("fanhui_2 :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(2)          
+    for i in range(4):
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
+        print("new_role_next  :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(5)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\yimunanfu.png",200,0.8)
+    print("yimunanfu :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\qianwangjiaru_tongmeng.png",200,0.8)
+    print("qianwangjiaru_tongmeng :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\shenqingjiaru_tongmeng.png",200,0.8)
+        print("shenqingjiaru_tongmeng :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(2)
+            point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\fanhui_2.png",200,0.8)
+            print("fanhui_2 :",point_infos)
+            if point_infos != None:
+                find_click(point_infos)
+                time.sleep(2)   
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\queren.png",200,0.8)
+    print("queren :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)      
 
 
 def answer_quest():
+    time.sleep(10)
     num = 0
     while True:
-        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\1_5.png",20,0.8)
+        print("answer times: ",num)
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\1_5.png",30,0.8)
         print("1_5 :",point_infos)
         if point_infos != None:
             dest_node = gen_destnode(point_infos.left, point_infos.top-300, point_infos.width, point_infos.height)
             start_mnq(dest_node[0],dest_node[1])
+            pyautogui.moveTo(1,1,duration=0.3)
+            time.sleep(3)
 
-        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\2_5.png",20,0.8)
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\2_5.png",30,0.8)
         print("2_5 :",point_infos)      
         if point_infos != None:
             dest_node = gen_destnode(point_infos.left, point_infos.top-300, point_infos.width, point_infos.height)
             start_mnq(dest_node[0],dest_node[1])
+            pyautogui.moveTo(1,1,duration=0.3)
+            time.sleep(3)
 
-        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\3_5.png",20,0.8)
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\3_5.png",30,0.8)
         print("3_5 :",point_infos)   
         if point_infos != None:
             dest_node = gen_destnode(point_infos.left, point_infos.top-300, point_infos.width, point_infos.height)
             start_mnq(dest_node[0],dest_node[1])
+            pyautogui.moveTo(1,1,duration=0.3)
+            time.sleep(3)
 
-        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\4_5.png",20,0.8)
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\4_5.png",30,0.8)
         print("4_5 :",point_infos)      
         if point_infos != None:
             dest_node = gen_destnode(point_infos.left, point_infos.top-300, point_infos.width, point_infos.height)
             start_mnq(dest_node[0],dest_node[1])
+            pyautogui.moveTo(1,1,duration=0.3)
+            time.sleep(3)
 
-        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\5_5.png",20,0.8)
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\5_5.png",30,0.8)
         print("5_5 :",point_infos)      
         if point_infos != None:
             dest_node = gen_destnode(point_infos.left, point_infos.top-300, point_infos.width, point_infos.height)
             start_mnq(dest_node[0],dest_node[1])
-
+            pyautogui.moveTo(1,1,duration=0.3)
+            time.sleep(3)
+        if num >= 1:
+            point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",30,0.8)
+            print("new_role_next 已回答完成5题 :",point_infos)
+            if point_infos != None:
+                break
         num = num + 1
         if num >= 5:
             break
@@ -263,38 +646,87 @@ def find_click(point_infos):
     else:
         dest_node = gen_destnode(point_infos.left,point_infos.top,point_infos.width,point_infos.height)
         start_mnq(dest_node[0],dest_node[1])
+        pyautogui.moveTo(1,1,duration=0.3)
+
+def zhaomu_shouci():
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zhaomu_hong.png",200,0.8)
+    print("zhaomu_hong :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(3)
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\mingjiang_hong.png",200,0.8)
+        # point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\pk_mingjiang.png")
+        print("mingjiang_hong :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(3)
+            point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zhaomu2_free.png",200,0.8)
+            print("zhaomu2_free :",point_infos)
+            if point_infos != None:
+                find_click(point_infos)
+                time.sleep(3)
+                for i in range(2):
+                    zhaomu_lan_shouci()
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\fanhui.png",200,0.8)
+    for i in range(2):
+        print("fanhui :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(2)
+
+
 
 def zhaomu():
     point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\zhaomu_hong.png")
     print("zhaomu_hong :",point_infos)
     if point_infos != None:
         find_click(point_infos)
+        time.sleep(3)
         point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\mingjiang_hong.png")
         # point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\pk_mingjiang.png")
         print("mingjiang_hong :",point_infos)
         if point_infos != None:
             find_click(point_infos)
+            time.sleep(3)
             point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\zhaomu1_free.png")
             print("zhaomu1_free :",point_infos)
             if point_infos != None:
                 find_click(point_infos)
+                time.sleep(3)
                 zhaomu_cheng()
                 point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\zhaomu1_half.png")
                 print("zhaomu1_half :",point_infos)
                 if point_infos != None:
                     find_click(point_infos)
+                    time.sleep(3)
                     zhaomu_cheng()
+
+def zhaomu_lan_shouci():
+    # 招募后判断是否出现下一步按钮，招募到橙有交互
+    for i in range(2):
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\next.png",200,0.8)
+        print("next :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(3)
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zhaocheng_dianjifanhui.png",200,0.8)
+        print("点击其他区域返回 :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(3)
 
 def zhaomu_cheng():
     # 招募后判断是否出现下一步按钮，招募到橙有交互
-    point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\next.png")
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\next.png",200,0.8)
     print("next :",point_infos)
     if point_infos != None:
         find_click(point_infos)
-        point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\zhaocheng_dianjifanhui.png")
-        print("招募到橙，点击其他区域返回 :",point_infos)
+        time.sleep(3)
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zhaocheng_dianjifanhui.png",200,0.8)
+        print("点击其他区域返回 :",point_infos)
         if point_infos != None:
             find_click(point_infos)
+            time.sleep(3)
 
 def saodang(level,x,y,team_num):
     pass
@@ -305,42 +737,51 @@ def dingwei_zhucheng():
     # point_infos = find_pic(r"D:\code\mypython\python\sgz\picture\zhucheng_dingwei.png ")
     # print("主城定位：",point_infos)
     # find_click(point_infos)
-    time.sleep(1)
+    time.sleep(2)
     dest_node = gen_destnode(point_infos.left, point_infos.top + 34, point_infos.width, point_infos.height)
     start_mnq(dest_node[0],dest_node[1])
+    pyautogui.moveTo(1,1,duration=0.3)
+    time.sleep(2)
     point_infos = find_pic(r"D:\code\mypython\python\sgz\picture\rucheng.png ")
     print("rucheng : ",point_infos )
     find_click(point_infos)
+    time.sleep(2)
 
 def chengjian():
     point_infos = find_pic(r"D:\code\mypython\python\sgz\picture\chengjian.png ")
-    find_click(point_infos)    
+    find_click(point_infos)
+    time.sleep(2)  
     point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\sheng.png ")
     print("sheng 可升级建设坐标 is: ",point_infos)
     # find_click(point_infos)
     if point_infos != None:
         point_infos = find_pic(r"D:\code\mypython\python\sgz\picture\shengji.png ")
         find_click(point_infos)
+        time.sleep(2) 
         point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\meiyouduilie.png")
         if point_infos != None:
             time.sleep(10)     
         point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\shengji_queren.png ")
         find_click(point_infos)
+        time.sleep(2) 
         
     point_infos = find_pic(r"D:\code\mypython\python\sgz\picture\junshi.png ")
     print("junshi is: ",point_infos)
     find_click(point_infos)
+    time.sleep(2) 
     point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\sheng.png ")
     print("sheng 可升级建设坐标 is: ",point_infos)
     # find_click(point_infos)     
     if point_infos != None:
         point_infos = find_pic(r"D:\code\mypython\python\sgz\picture\shengji.png ")
         find_click(point_infos)
+        time.sleep(2) 
         point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\meiyouduilie.png")
         if point_infos != None:
             time.sleep(10)     
         point_infos = find_pic_10(r"D:\code\mypython\python\sgz\picture\shengji_queren.png ")
         find_click(point_infos)
+        time.sleep(2) 
 
 if __name__=="__main__":
     time.sleep(5)
@@ -366,7 +807,20 @@ if __name__=="__main__":
 
         # dingwei_zhucheng()
         # chengjian()
+
         new_role()
+
+     
+        #     dest_node = gen_destnode(point_infos.left, point_infos.top -70, point_infos.width, point_infos.height)
+        #     start_mnq(dest_node[0],dest_node[1])
+
+        # for i in range(5):
+        #     point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
+        #     print("new_role_next  :",point_infos)
+        #     if point_infos != None:
+        #         find_click(point_infos)
+        #         time.sleep(2)
+
 
         # first login
         point_infos = find_pic(r"D:\code\mypython\python\sgz\picture\xuanze.png")
