@@ -9,10 +9,12 @@ if __name__ == "__main__":
     # result = reader.readtext("D:\project\FR\script\pic1.png")
     # print(result)
 
-    text = pytesseract.image_to_string(Image.open(r'D:\code\mypython\python\pic2.png'),lang='chi_sim')
+    # text = pytesseract.image_to_string(Image.open(r'D:\code\mypython\python\pic2.png'),lang='chi_sim')
+    # print(text)
+    # print("end")
+    text = pytesseract.image_to_string(Image.open(r'D:\code\mypython\python\sgz\level5_tie.png'))
     print(text)
-    print("end")
-    text = pytesseract.image_to_string(Image.open(r'D:\code\mypython\python\pic2.png'))
+    text = pytesseract.image_to_string(Image.open(r'D:\code\mypython\python\sgz\level5_tie.png'),lang='chi_sim')
     print(text)
 
 
