@@ -1,0 +1,29 @@
+
+def get_landinfo(x,y):
+    print("center x y is :",x,y)
+    center_x0_1 = (x,y+2) 
+    map_list = []
+    map_list = [].append(x,y)
+    # x y+-2
+    # x y+-3
+    # x y+-4 ...
+
+    # x+1 y+3
+    # x+1 y+4 ...
+    # x+1 y-2
+    # x+1 y-3 ...
+
+    # x-1 y+3
+    # x-1 y+4 ...
+    # x-1 y-2
+    # x-1 y-3 ...
+
+    # x+2 y+1
+    # x+2 y+2 ...
+    # x+2 y
+    # x+2 y-1 ... 
+
+    # x-2 y+1
+    # x-2 y+2 ...
+    # x-2 y
+    # x-2 y-1 ... 

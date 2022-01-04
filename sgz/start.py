@@ -241,7 +241,7 @@ def new_role():
     print("gongzhan_2 :",point_infos)
     if point_infos != None:
         find_click(point_infos)
-        time.sleep(20)
+        time.sleep(25)
         # 攻占后如果等待100秒，可以不点击跳过按钮
         point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\tiaoguo.png",200,0.8)
         print("tiaoguo  :",point_infos)
@@ -249,7 +249,7 @@ def new_role():
             find_click(point_infos)
             time.sleep(15)
         else:
-            time.sleep(80)
+            time.sleep(100)
 
 
     point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\qushou.png",200,0.8)
@@ -668,6 +668,26 @@ def find_pic_all(picture_path):
         else:
             print(pointinfo)
 
+def find_pic_list(picture_path):
+    i = 1
+    pointinfos = []
+    for pointinfo in pyautogui.locateAllOnScreen(picture_path,confidence=0.8):
+        if pointinfo == None:
+            i = i + 1
+            continue
+        elif i > 10:
+            print("未找到指定图片")
+            time.sleep(10)
+            choice_op = input("请选择要执行的操作编号1或2：1：跳过此步；2：继续查找")
+            if choice_op == "1":
+                break
+            else:
+                i = 1
+                continue 
+        else:
+            pointinfos.append(pointinfo)
+            print(pointinfo)
+    return pointinfos
 
 def gen_destnode(left,top,width,height):
     return(left + random.random()*width, top + random.random()*height)
@@ -704,8 +724,6 @@ def zhaomu_shouci():
         if point_infos != None:
             find_click(point_infos)
             time.sleep(2)
-
-
 
 def zhaomu():
     point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zhaomu_hong.png",20,0.8)
@@ -746,7 +764,18 @@ def fanhui():
         if point_infos != None:
             find_click(point_infos)
             time.sleep(2)
-
+def fanhui_1():
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\fanhui.png",30,0.8)
+    print("fanhui :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)
+def fanhui_1_small():
+    point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\fanhui_2.png",30,0.8)
+    print("fanhui_2 小返回 :",point_infos)
+    if point_infos != None:
+        find_click(point_infos)
+        time.sleep(2)        
 def fanhui_1_2():
     point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\fanhui.png",30,0.8)
     print("fanhui :",point_infos)
@@ -867,6 +896,81 @@ def get_zhucheng():
         zuobiao_y = zuobiao_xy.split(",")[1]
         return(int(zuobiao_x),int(zuobiao_y))
 
+def kuaisu_fenbing(teamnum):
+    dingwei_zhucheng()
+    teamids = get_teamid()
+    # teamnum = len(teamids)
+    for i in range(teamnum):
+        find_click(teamids[i])
+        time.sleep(2)
+        point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\kuaisufenbing.png",30,0.9)
+        print("kuaisufenbing :",point_infos)
+        if point_infos != None:
+            find_click(point_infos)
+            time.sleep(2)
+            point_infos_fenbing = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\querenfenbing.png",30,0.9)
+            print("querenfenbing :",point_infos_fenbing)
+            if point_infos_fenbing != None:
+                find_click(point_infos_fenbing)
+                time.sleep(2)
+                fanhui_1()
+            else:
+                find_click(point_infos)
+                fanhui_1()
+        else:
+            fanhui_1()
+    fanhui_1_small()
+
+
+    # point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\fanhui.png",50,0.8)
+    # print("fanhui :",point_infos)
+    # if point_infos != None:
+    #     find_click(point_infos)
+    #     time.sleep(2)
+    # point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\fanhui_2.png",50,0.8)
+    # print("fanhui_2 :",point_infos)
+    # if point_infos != None:
+    #     find_click(point_infos)
+    #     time.sleep(2)    
+
+
+def get_teamid():
+    team_ids = []
+    team_info = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\duiwu_1.png",50,0.9)
+    print("team_1 is: ",team_info)
+    # pyautogui.moveTo(team_info.left,team_info.top)
+    if team_info != None:
+        team_ids.append(team_info)
+    else:
+        return team_ids
+    team_info = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\duiwu_2.png",50,0.9)
+    print("team_2 is: ",team_info)
+    if team_info != None:
+        team_ids.append(team_info)
+    else:
+        return team_ids
+    team_info = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\duiwu_3.png",50,0.9)
+    print("team_3 is: ",team_info)
+    if team_info != None:
+        team_ids.append(team_info)
+    else:
+        return team_ids
+    team_info = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\duiwu_4.png",50,0.9)
+    print("team_4 is: ",team_info)
+    if team_info != None:
+        team_ids.append(team_info)
+    else:
+        return team_ids
+    team_info = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\duiwu_5.png",50,0.9)
+    print("team_5 is: ",team_info)
+    if team_info != None:
+        team_ids.append(team_info)
+    else:
+        return team_ids
+    print("teamids : ",team_ids)
+    print("team0 x is : ",team_ids[0].left)
+    return team_ids
+
 if __name__=="__main__":
     time.sleep(5)
 
@@ -899,9 +1003,10 @@ if __name__=="__main__":
         # new_role()
         # zhaomu()
         # chengjian()
-        # get_zhucheng()
-        xy = get_zhucheng()
-        print(xy[0],xy[1])
+        # xy = get_zhucheng()
+        # print(xy[0],xy[1])
+        # teamids = get_teamid()
+        kuaisu_fenbing(2)
 
         # for i in range(5):
         #     point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
