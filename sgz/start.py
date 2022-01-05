@@ -668,10 +668,10 @@ def find_pic_all(picture_path):
         else:
             print(pointinfo)
 
-def find_pic_list(picture_path):
+def find_pic_list(picture_path,confidence):
     i = 1
     pointinfos = []
-    for pointinfo in pyautogui.locateAllOnScreen(picture_path,confidence=0.8):
+    for pointinfo in pyautogui.locateAllOnScreen(picture_path,confidence=confidence):
         if pointinfo == None:
             i = i + 1
             continue
@@ -821,9 +821,6 @@ def zhaomu_cheng():
             find_click(point_infos)
             time.sleep(3)        
 
-def saodang(level,x,y,team_num):
-    pass
-
 def dingwei_zhucheng():
     point_infos = find_pic(r"D:\code\mypython\python\sgz\picture\dibiao1.png ")
     find_click(point_infos)
@@ -891,7 +888,24 @@ def get_zhucheng():
         time.sleep(1)
         text = pytesseract.image_to_string(Image.open(r"D:\code\mypython\python\sgz\picture\zuobiao_to_str.png"))
         print(text)
-        zuobiao_xy = text[1:][:-2]
+
+        # 偶尔出现坐标最后多一个逗号的情况，需要处理
+        start = 0
+        end = len(text)-1
+        for i in range(len(text)):
+            if text[i] == "(":
+                start = i+1
+            elif text[i] == ")":
+                end = len(text)-i
+        if ")" not in text:
+            end = len(text)
+            zuobiao_xy = text[start:]
+        else:                
+            zuobiao_xy = text[start:][:-end]
+        print(zuobiao_xy)
+
+        # zuobiao_xy = text[start:][:end]
+        # zuobiao_xy = text[1:][:-2]
         zuobiao_x = zuobiao_xy.split(",")[0]
         zuobiao_y = zuobiao_xy.split(",")[1]
         return(int(zuobiao_x),int(zuobiao_y))
@@ -922,16 +936,39 @@ def kuaisu_fenbing(teamnum):
     fanhui_1_small()
 
 
-    # point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\fanhui.png",50,0.8)
-    # print("fanhui :",point_infos)
-    # if point_infos != None:
-    #     find_click(point_infos)
-    #     time.sleep(2)
-    # point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\fanhui_2.png",50,0.8)
-    # print("fanhui_2 :",point_infos)
-    # if point_infos != None:
-    #     find_click(point_infos)
-    #     time.sleep(2)    
+def zhengbing():
+    dingwei_zhucheng()
+    cha_quxiao = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\cha_quxiaozhengbing.png",50,0.9)
+    print("cha_quxiaozhengbing is: ",cha_quxiao)
+    if cha_quxiao != None:
+        find_click(cha_quxiao)
+        time.sleep(1)
+        queding = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\queding.png",50,0.9)
+        print("queding is: ",queding)
+        if queding != None:
+            find_click(queding)
+            time.sleep(1) 
+    zhengbing = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zhengbing.png",50,0.9)
+    print("zhengbing is: ",zhengbing)
+    if zhengbing != None:
+        find_click(zhengbing)
+        time.sleep(1)
+        zuida = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zuida.png",50,0.9)
+        print("zuida is: ",zuida)
+        if zuida != None:
+            find_click(zuida)
+            time.sleep(1)
+            kaishizhengbing = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\kaishizhengbing.png",50,0.9)
+            print("kaishizhengbing is: ",kaishizhengbing)
+            if kaishizhengbing != None:
+                find_click(kaishizhengbing)
+                time.sleep(1)
+                queren = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\queren.png",50,0.9)
+                print("queren is: ",queren)
+                if queren != None:
+                    find_click(queren)
+                    time.sleep(1) 
+    fanhui_1_small()
 
 
 def get_teamid():
@@ -971,6 +1008,135 @@ def get_teamid():
     print("team0 x is : ",team_ids[0].left)
     return team_ids
 
+# 输入坐标跳转到指定点
+def toxy(x,y):
+    print("toxy x,y: ",x,y)
+    ditu = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\ditu.png",50,0.8)
+    if ditu != None:
+        find_click(ditu)
+        time.sleep(2)
+        # 根据 坐标输入框前的“坐标图标“ 计算坐标偏移量x y
+        zuobiao_biaoshi = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zuobiao_biaoshi.png",50,0.9)
+        if zuobiao_biaoshi != None:
+            print("zuobiao_biaoshi: ",zuobiao_biaoshi)           
+            # 输入X 偏移量待确认55是否准确
+            dest_node = gen_destnode(zuobiao_biaoshi.left + 55, zuobiao_biaoshi.top, zuobiao_biaoshi.width + 10, zuobiao_biaoshi.height)
+            start_mnq(dest_node[0], dest_node[1])
+            time.sleep(2)
+            wancheng = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\wancheng.png",50,0.8)
+            if wancheng != None:
+                dest_node = gen_destnode(wancheng.left-400, wancheng.top, wancheng.width, wancheng.height)
+                # start_mnq(dest_node[0], dest_node[1])
+                pyautogui.leftClick(dest_node[0], dest_node[1])
+                pyautogui.mouseDown()
+                time.sleep(2)
+                pyautogui.mouseUp()
+                time.sleep(1)
+                quanxuan = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\quanxuan.png",50,0.8)
+                if quanxuan != None:
+                    print("quanxuan : ",quanxuan)
+                    find_click(quanxuan)
+                    time.sleep(1)      
+                # print("x del")
+                # for i in range(4):
+                #     print("backspace",i)
+                #     pyautogui.press("backspace",interval=2)
+                # time.sleep(1)
+                pyautogui.typewrite(message=str(x))
+                find_click(wancheng)
+                time.sleep(2)
+
+            # 输入Y，偏移量待确认
+            dest_node = gen_destnode(zuobiao_biaoshi.left + 165, zuobiao_biaoshi.top, zuobiao_biaoshi.width + 10, zuobiao_biaoshi.height)
+            start_mnq(dest_node[0], dest_node[1])
+            time.sleep(2)
+            wancheng = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\wancheng.png",50,0.8)
+            if wancheng != None:
+                dest_node = gen_destnode(wancheng.left-400, wancheng.top, wancheng.width, wancheng.height)
+                pyautogui.leftClick(dest_node[0], dest_node[1])
+                pyautogui.mouseDown()
+                time.sleep(2)
+                pyautogui.mouseUp()
+                time.sleep(1)
+                quanxuan = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\quanxuan.png",50,0.8)
+                if quanxuan != None:
+                    print("quanxuan : ",quanxuan)
+                    find_click(quanxuan)
+                    time.sleep(1)    
+                pyautogui.typewrite(message=str(y))
+                find_click(wancheng)
+                qianwang_xy = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\qianwang_xy.png",50,0.9)
+                if qianwang_xy != None:
+                    find_click(qianwang_xy)
+                    time.sleep(3)
+
+
+# todo 待截图，计算查询偏移量
+def saodang(team_id,x,y):
+    toxy(x,y)
+    time.sleep(2)
+    saodang = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\saodang.png",50,0.8)
+    if saodang != None:
+        find_click(saodang)
+        time.sleep(2)
+        xuanzebudui = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\xuanzebudui.png",50,0.7)
+        if xuanzebudui != None:
+            print("xuanzebudui: ",xuanzebudui)
+            time.sleep(2)
+            # 获取5个队伍时 绿色"待命"与 "选择部队" 的偏移量
+            daimings = find_pic_list(r"D:\code\mypython\python\sgz\picture\daiming_5dui.png",0.7)
+            print("daimings: ",daimings)
+            if len(daimings) >0:
+                daiming_lists = [daimings[0]]
+                # for i in range(len(daimings)):
+                for j in range(len(daimings)):
+                    if daimings[j].left-daiming_lists[-1].left > 200:
+                        # print(daimings[j])
+                        daiming_lists.append(daimings[j])
+                        # pyautogui.moveTo(daimings[j].left,daimings[j].top)
+                        # time.sleep(1)
+                    else:
+                        print("daiming j and i is same points: ",daimings[j])                        
+            print("daming_lists is: ",daiming_lists)
+            print("team_id is: ",team_id)
+            print("team_daiming is: ",daiming_lists[team_id])
+            find_click(daiming_lists[team_id])
+
+            point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\zanshiwufaxingdong.png",50,0.7)
+            if point_infos != None:
+                print("zanshiwufaxingdong: ",point_infos)
+                fanhui_1()
+                return
+
+            point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\saodang_2.png",50,0.7)
+            if point_infos != None:
+                print("saodang_2: ",point_infos)
+                find_click(point_infos)
+                point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\jianchichuzheng.png",50,0.7)
+                if point_infos != None:
+                    print("jianchichuzheng: ",point_infos)
+                    find_click(point_infos)
+                    time.sleep(60)
+                else:
+                    time.sleep(60)           
+            # "选择部队":  
+            # Box(left=719, top=487, width=85, height=17)
+            # 5个待命 （队伍数不同相对距离不同）
+            # Box(left=373, top=533, width=39, height=19)
+            # Box(left=605, top=533, width=39, height=19)
+            # Box(left=838, top=533, width=39, height=19)
+            # Box(left=1071, top=533, width=39, height=19)
+            # Box(left=1303, top=533, width=39, height=19) 
+            # 相对距离         
+            # xuanzebudui.left-346
+            # xuanzebudui.left-114
+            # xuanzebudui.left+119
+            # xuanzebudui.left+352
+            # xuanzebudui.left+584
+
+    
+
+
 if __name__=="__main__":
     time.sleep(5)
 
@@ -1006,7 +1172,23 @@ if __name__=="__main__":
         # xy = get_zhucheng()
         # print(xy[0],xy[1])
         # teamids = get_teamid()
-        kuaisu_fenbing(2)
+        
+        # kuaisu_fenbing(2)
+        # zhengbing()
+
+        xy = get_zhucheng()
+        print("xy[0]",xy[0],"xy[1]",xy[1])
+        input_x = xy[0] - 2
+        input_y = xy[1] - 1
+        # print("inputx inputy : ",input_x,input_y)
+        # toxy(input_x, input_y)
+
+        saodang(0,input_x, input_y)
+        fanhui_1()
+        kuaisu_fenbing(1)
+        fanhui_1()
+        zhengbing()
+
 
         # for i in range(5):
         #     point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
