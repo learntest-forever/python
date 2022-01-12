@@ -14,6 +14,21 @@ from PIL import Image
 # import tesseract
 import pytesseract
 import string
+from aip import AipOcr
+
+def get_file_content(filePath):
+    with open(filePath, 'rb') as fp:
+        return fp.read()
+
+def my_ocr(filepath):
+    image = get_file_content(filepath)
+    APP_ID = "22db84bb626d40eaa316c4c58864f26b"
+    API_KEY = 'dc4662b5852d420a9d44a1b4e236f528'
+    SECRET_KEY = '4b14e073956b42fab33d7e6b435272fe'
+    client = AipOcr(APP_ID, API_KEY, SECRET_KEY)
+    result = client.basicGeneral(image)
+    print("my_ocr result is : ",result)
+    return result
 
 def get_distance():
     point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\mucai.png",200,0.8)
@@ -1070,6 +1085,113 @@ def toxy(x,y):
                     find_click(qianwang_xy)
                     time.sleep(3)
 
+def get_landinfo(x,y):
+    toxy(x,y)
+    # # 通过查找图片，确认地块等级(如果记录类型，需要更多图片 1级木 1级石 1级粮 1级铁，2级...)
+    # pointinfo = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\kongdi.png",50,0.8)
+    # pointinfo = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\1ji.png",50,0.8)
+    # pointinfo = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\2ji.png",50,0.8)
+    # pointinfo = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\3ji.png",50,0.8)
+    # pointinfo = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\4ji.png",50,0.8)
+    # pointinfo = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\5ji.png",50,0.8)
+    # pointinfo = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\6ji.png",50,0.8)
+    # pointinfo = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\7ji.png",50,0.8)
+    # pointinfo = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\8ji.png",50,0.8)
+
+    # 通过图片识别(需要保证准确性)，确认地块信息：等级 所属 类型 todo
+    # 截图中间一定区域内(相对地表获取区域) 保存land_tmp.png, 识别地块信息，根据“级”分割，保存等级和资源类型；
+    # 查找关键字图片，攻占（无主或敌方），驻守（己方，友方）----初期不考虑攻占他人与飞地。todo后期优化
+    # 如果为资源地，则查询所属（红 蓝 主公，友等图片），写入文件landinfo.txt或写入数据库；
+    # x,y,level(0-10,11其他),type(0-6,7其他),who_lock；
+
+    dibiao_zuobiao = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\dibiao1.png",20,0.8)
+    print("dibiao is: ",dibiao_zuobiao)
+    # pyautogui.moveTo(dibiao_zuobiao.left,dibiao_zuobiao.top)
+    time.sleep(2)
+    # # 地块信息 todo landinfo 待确认位置
+    # landinfo = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\landinfo.png",20,0.8)
+    # print("landinfo is: ",landinfo)
+    # # pyautogui.moveTo(landinfo.left,landinfo.top)
+    # time.sleep(2)
+
+    # dibiao is:  Box(left=1258, top=124, width=55, height=15)
+    # landinfo is:  Box(left=719, top=144, width=89, height=22)
+    # left - 539 , top + 20 
+
+    # 计算偏移量(待确认)，截图地块信息做文字识别
+    pyautogui.moveTo(dibiao_zuobiao.left - 539,dibiao_zuobiao.top + 20)
+    time.sleep(3)
+    pyautogui.moveTo(1,1)
+    time.sleep(1)
+    tmp_shot = pyautogui.screenshot(region=(dibiao_zuobiao.left - 539,dibiao_zuobiao.top + 20, 89, 22))
+    tmp_shot.save(r"D:\code\mypython\python\sgz\picture\tmp_shot.png")
+    time.sleep(1)
+    # pytesseract ocr 中文包版本待确认；
+    # text = pytesseract.image_to_string(Image.open(r"D:\code\mypython\python\sgz\picture\tmp_shot.png"))
+    result = my_ocr(r"D:\code\mypython\python\sgz\picture\tmp_shot.png")
+    print('''result["words_result"][0]["words"] is : ''', result["words_result"][0]["words"])
+    text = str(result["words_result"][0]["words"])
+    print(text)
+    # 获取信息 0 1 2 3 4 5 6 空 粮 木 石 铁 铜 其他
+    for i in range(len(text)):
+        if text[i] == "级":
+            land_level = int(text[:i])
+        if "空地" in text:
+            land_level = 0
+            land_type = 0            
+        elif "粮食" in text:
+            land_type = 1
+        elif "石料" in text:
+            land_type = 2
+        elif "木材" in text:
+            land_type = 3
+        elif "铁矿" in text:
+            land_type = 4
+        elif "铜矿" in text:
+            land_type = 5
+        else:
+            land_level = 11
+            land_type = 6
+            
+    # who_lock: 0 空，1 自己，2 盟友，3友盟，4 敌对，5 未知
+    you = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\you.png",10,0.8)
+    if you != None:
+        who_lock = 3
+        print("you is: ",you)
+    # if land_type != 6:
+    else:
+        lvse_zhugong = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\lvse_zhugong.png",10,0.9)
+        if lvse_zhugong != None:
+            who_lock = 1
+            print("lvse_zhugong is: ",lvse_zhugong)
+        else:
+            lanse_zhugong = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\lanse_zhugong.png",10,0.9)
+            if lanse_zhugong != None:
+                who_lock = 2
+                print("lanse_zhugong is: ",lanse_zhugong)
+            else:
+                qianlan_zhugong = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\qianlan_zhugong.png",10,0.8)
+                if qianlan_zhugong != None:
+                    who_lock = 3
+                    print("qianlan_zhugong is: ",qianlan_zhugong)
+                else:
+                    hongse_zhugong = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\hongse_zhugong.png",10,0.8)
+                    if hongse_zhugong != None:
+                        who_lock = 4
+                        print("hongse_zhugong is: ",hongse_zhugong)
+                    else:
+                        who_lock = 0
+    else:
+        who_lock = 5
+
+
+    mapinfo = [x,y,land_level,land_type,who_lock]
+    print("land_level 0-11 空-10级 11未知； land_type 0-6 空 粮 石 木 铁 铜 6未知； who_lock: 0-5 空 自己 盟友 友盟 敌对 5未知")
+    print(mapinfo)
+
+def get_land_wholock(x,y,land_level,land_type):
+    
+    pass
 
 # todo 待截图，计算查询偏移量
 def saodang(team_id,x,y):
@@ -1176,19 +1298,21 @@ if __name__=="__main__":
         # kuaisu_fenbing(2)
         # zhengbing()
 
-        xy = get_zhucheng()
-        print("xy[0]",xy[0],"xy[1]",xy[1])
-        input_x = xy[0] - 2
-        input_y = xy[1] - 1
+        # xy = get_zhucheng()
+        # print("xy[0]",xy[0],"xy[1]",xy[1])
+        # input_x = xy[0] - 2
+        # input_y = xy[1] - 1
         # print("inputx inputy : ",input_x,input_y)
         # toxy(input_x, input_y)
 
-        saodang(0,input_x, input_y)
-        fanhui_1()
-        kuaisu_fenbing(1)
-        fanhui_1()
-        zhengbing()
+        # saodang(0,input_x, input_y)
+        # fanhui_1()
+        # kuaisu_fenbing(1)
+        # fanhui_1()
+        # zhengbing()
 
+        # get_landinfo(x=817,y=946)
+        get_landinfo(x=817,y=948)
 
         # for i in range(5):
         #     point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
