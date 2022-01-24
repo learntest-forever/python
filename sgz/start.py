@@ -1128,6 +1128,7 @@ def get_landinfo(x,y):
     time.sleep(1)
     # pytesseract ocr 中文包版本待确认；
     # text = pytesseract.image_to_string(Image.open(r"D:\code\mypython\python\sgz\picture\tmp_shot.png"))
+    # 百度ocr接口
     result = my_ocr(r"D:\code\mypython\python\sgz\picture\tmp_shot.png")
     print('''result["words_result"][0]["words"] is : ''', result["words_result"][0]["words"])
     text = str(result["words_result"][0]["words"])
@@ -1181,8 +1182,8 @@ def get_landinfo(x,y):
                         print("hongse_zhugong is: ",hongse_zhugong)
                     else:
                         who_lock = 0
-    else:
-        who_lock = 5
+    # else:
+    #     who_lock = 5
 
 
     mapinfo = [x,y,land_level,land_type,who_lock]
@@ -1192,6 +1193,9 @@ def get_landinfo(x,y):
 def get_land_wholock(x,y,land_level,land_type):
     
     pass
+
+
+
 
 # todo 待截图，计算查询偏移量
 def saodang(team_id,x,y):
@@ -1256,7 +1260,33 @@ def saodang(team_id,x,y):
             # xuanzebudui.left+352
             # xuanzebudui.left+584
 
-    
+def genmap_zhucheng(x,y,num):
+        # 根据中心块x的奇偶性，获取主城占用11格坐标
+        my_home = []
+        if x%2 == 0:
+            my_home = [(x,y),(x,y+1),(x+1,y+1),(x+1,y),(x+1,y-1),(x+1,y-2),(x,y-1),(x-1,y-2),(x-1,y-1),(x-1,y),(x-1,y+1)]
+        else:
+            my_home = [(x,y),(x,y+1),(x+1,y+2),(x+1,y+1),(x+1,y),(x+1,y-1),(x,y-1),(x-1,y-1),(x-1,y),(x-1,y+1),(x-1,y+2)]
+        print("myhome points: ",my_home)
+        if x%2 == 0:
+            print("centor 2")
+        else:
+            print("Centor 1")
+
+        # if x %2 == 0:
+        #     for i in range(-num,num,1):
+        #         point = (x+i,y)
+        #         if point not in my_home:
+        #             toxy(x,y)
+        #             point_infos = find_pic_10()
+        #             if point_infos == None:
+        #                 print("未找到对应图片，请确认")
+        #             else:
+        #                 dest_node = gen_destnode(point_infos.left,point_infos.top,point_infos.width,point_infos.height)
+        #                 start_mnq(dest_node[0],dest_node[1])
+        #                 pyautogui.moveTo(1,1,duration=0.3)
+        #             pass
+        #         pass    
 
 
 if __name__=="__main__":
@@ -1265,12 +1295,14 @@ if __name__=="__main__":
     # # 打开模拟器
     # open_application()
     # time.sleep(10)
-    # # 打开sgz_app
+
+    # 打开sgz_app
     # start_sgzapp()
     # qianwang()
 
     # time.sleep(5)
     zhaomu_time = 0
+ 
     while True:
         # time_now = time.time()
         # if time_now - zhaomu_time >= 3600:
@@ -1288,11 +1320,14 @@ if __name__=="__main__":
         #     start_mnq(dest_node[0],dest_node[1])
 
         # login()
-        # new_role()
-        # zhaomu()
-        # chengjian()
+
+        new_role()
+        zhaomu()
+        chengjian()
         # xy = get_zhucheng()
         # print(xy[0],xy[1])
+        (x,y) = get_zhucheng()
+        genmap_zhucheng(x,y,5)
         # teamids = get_teamid()
         
         # kuaisu_fenbing(2)
@@ -1312,7 +1347,7 @@ if __name__=="__main__":
         # zhengbing()
 
         # get_landinfo(x=817,y=946)
-        get_landinfo(x=817,y=948)
+        # get_landinfo(x=817,y=948)
 
         # for i in range(5):
         #     point_infos = find_pic_num_confidence(r"D:\code\mypython\python\sgz\picture\new_role_next.png",200,0.8)
