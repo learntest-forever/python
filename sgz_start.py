@@ -40,8 +40,8 @@ if __name__ == "__main__":
 
     # # 获取地图文件
     # sgz_client.genmap_zhucheng(x,y,2)
-    sgz_client.gen_connect_file()
+    # sgz_client.gen_connect_file()
 
     # sgz_client.gen_route(1433,842,1434,840)
-    # sgz_client.gen_short()
+    sgz_client.gen_short()
     # sgz_client.find_pic_10()
