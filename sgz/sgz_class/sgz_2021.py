@@ -507,5 +507,6 @@ class Sgz(object):
         print(distance_id)
         f.close()
         fc.close()
+        return distance_id
 
 

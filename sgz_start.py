@@ -42,6 +42,9 @@ if __name__ == "__main__":
     # sgz_client.genmap_zhucheng(x,y,2)
     # sgz_client.gen_connect_file()
 
+    # 生成二维数据G 
+    G = sgz_client.gen_short()
+    
     # sgz_client.gen_route(1433,842,1434,840)
-    sgz_client.gen_short()
+
     # sgz_client.find_pic_10()
