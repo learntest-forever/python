@@ -43,8 +43,12 @@ def get_distance():
         time.sleep(2)
 
 def open_application():
-    os.startfile(r'D:\soft\xyaz\Microvirt\MEmu\MEmuConsole.exe')
-    time.sleep(10)
+    # os.startfile(r'D:\soft\xyaz\Microvirt\MEmu\MEmuConsole.exe')
+    # time.sleep(10)
+
+    # 1280*720 (dpi 240)  60fps
+    os.startfile(r"D:\leidian\LDPlayer4\dnmultiplayer.exe")    
+    
 def close_application():
     os.system("taskkill /F /IM MEmuConsole.exe")
 def start_mnq(x,y):
@@ -1292,15 +1296,15 @@ def genmap_zhucheng(x,y,num):
 if __name__=="__main__":
     time.sleep(5)
 
-    # # 打开模拟器
-    # open_application()
-    # time.sleep(10)
+    # 打开模拟器
+    open_application()
+    time.sleep(10)
 
     # 打开sgz_app
-    # start_sgzapp()
-    # qianwang()
+    start_sgzapp()
+    qianwang()
 
-    # time.sleep(5)
+    time.sleep(5)
     zhaomu_time = 0
  
     while True:
