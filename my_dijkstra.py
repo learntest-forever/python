@@ -14,25 +14,35 @@ def Dijkstra(G, start):
     visited[start] = 1
     # 最开始的上一个顶点为初始顶点
     last_point = start
+    last_point_list = [start]
 
     for i in range(node_num - 1):
         # 求出 dis 中未加入 visited 数组的最短距离和顶点
         min_dis = inf
         for j in range(node_num):
-            if visited[j] == 0 and dis[j] < min_dis:
-                min_dis = dis[j]
-                # 把该顶点做为下次遍历的上一个顶点
-                last_point = j
+            if visited[j] == 0: 
+                if dis[j] < min_dis:
+                    min_dis = dis[j]
+                    # 把该顶点做为下次遍历的上一个顶点
+                    last_point = j
+                    last_point_list.append(j)
+                elif dis[j] == min_dis:
+                    last_point_list.append(j)
         # 最短顶点假加入 visited 数组
         visited[last_point] = 1
         # 对首次循环做特殊处理，不然在首次循环时会没法求出该点的上一个顶点
+        parents_list = []
         if i == 0:
             parents[last_point] = start + 1
         for k in range(node_num):
-            if G[last_point][k] < inf and dis[k] > dis[last_point] + G[last_point][k]:
-                # 如果有更短的路径，更新 dis 和 记录 parents
-                dis[k] = dis[last_point] + G[last_point][k]
-                parents[k] = last_point + 1
+            for p in last_point_list:
+                if G[p][k] < inf and dis[k] > dis[p] + G[p][k]:
+                    # 如果有更短的路径，更新 dis 和 记录 parents
+                    dis[k] = dis[p] + G[p][k]
+                    parents[k] = p + 1
+                    parents_list.append(p+1)
+                    if len([parents_list]) > 1:
+                        print("parents list is: ",parents_list)
 
     # 因为从 0 开始，最后把顶点都加 1
     return {key + 1: values for key, values in dis.items()}, {key + 1: values for key, values in parents.items()}
