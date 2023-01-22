@@ -3,7 +3,7 @@ from cv2 import destroyAllWindows
 from numpy import datetime_data, true_divide
 import pyautogui
 import os
-import win32api
+# import win32api
 # import psreadline
 import time
 import datetime
@@ -48,7 +48,14 @@ def open_application():
 
     # 1280*720 (dpi 240)  60fps
     os.startfile(r"D:\leidian\LDPlayer4\dnmultiplayer.exe")    
-    
+
+def open_app(app_path):
+    # os.startfile(r'D:\soft\xyaz\Microvirt\MEmu\MEmuConsole.exe')
+    # time.sleep(10)
+
+    # 1280*720 (dpi 240)  60fps
+    os.startfile(app_path)    
+
 def close_application():
     os.system("taskkill /F /IM MEmuConsole.exe")
 def start_mnq(x,y):
@@ -1297,8 +1304,10 @@ if __name__=="__main__":
     time.sleep(5)
 
     # 打开模拟器
-    open_application()
-    time.sleep(10)
+    app_path = r"D:\leidian\LDPlayer4\dnmultiplayer.exe"
+    # open_application()
+    open_app(app_path)
+    time.sleep(30)
 
     # 打开sgz_app
     start_sgzapp()
@@ -1362,7 +1371,7 @@ if __name__=="__main__":
 
 
         # first login
-        point_infos = find_pic(r"D:\code\mypython\python\sgz\picture\xuanze.png")
+        point_infos = find_pic(picpath + r"\xuanze.png")
         if point_infos == None:
             print("not first login")
         else:
