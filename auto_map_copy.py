@@ -169,7 +169,7 @@ class FlexibleHexMap:
 if __name__ == "__main__":
     # 创建自定义坐标范围的地图 (min_x, min_y, max_x, max_y)
     # hex_map = FlexibleHexMap(555, 808, 557, 812)
-    hex_map = FlexibleHexMap(100, 150, 120, 160)
+    hex_map = FlexibleHexMap(555, 809, 558, 813)
 
     # 设置一些地块
     # hex_map.set_tile(100, 100, terrain='normal')  # 普通地块
@@ -178,9 +178,12 @@ if __name__ == "__main__":
     # hex_map.set_tile(107, 155, terrain='mountain', distance=999)
 
     # 根据地图实际情况，设置每个点的属性
-    for x in range(100, 121):
-        for y in range(150, 161):
+    for x in range(555, 559):
+        for y in range(809, 814):
             hex_map.set_tile(x, y, terrain='normal')
+
+    hex_map.set_tile(556, 811, terrain='river', distance=999)  # 河流障碍
+    hex_map.set_tile(555, 811, terrain='mountain', distance=999)
 
     print("地图布局(R=河流/障碍):")
     hex_map.print_map()
@@ -191,14 +194,25 @@ if __name__ == "__main__":
     #         hex_map.set_tile(x, y, terrain='forest', distance=2)
 
     # 设置起点和终点
-    start = (100, 150)
-    end = (120, 160)
-    
+    start = (555, 809)
+    end = (556, 812)
+
     # 查找路径
     distance, path = hex_map.find_path(start, end)
     
     print(f"从 {start} 到 {end} 的路径查找结果:")
     if distance is not None:
+        # 验证路径中所有连续点是否相邻
+        invalid_steps = []
+        for i in range(len(path)-1):
+            if path[i+1] not in hex_map.get_neighbors(*path[i]):
+                invalid_steps.append((path[i], path[i+1]))
+        
+        if invalid_steps:
+            print("\n警告: 发现不相邻的路径点:")
+            for step in invalid_steps:
+                print(f"  {step[0]} → {step[1]} 不相邻")
+        
         print(f"最短距离: {distance}")
         print(f"路径经过: {path}")
         
